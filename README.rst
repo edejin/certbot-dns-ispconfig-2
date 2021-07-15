@@ -24,7 +24,8 @@ Installation
 
 ::
 
-    pip install certbot-dns-ispconfig-2
+    git clone https://github.com/edejin/certbot-dns-ispconfig-2.git
+    pip install ./certbot-dns-ispconfig-2
 
 
 Named Arguments
@@ -107,11 +108,18 @@ create an empty directory with the following ``Dockerfile``:
 .. code-block:: docker
 
     FROM certbot/certbot
-    RUN pip install certbot-dns-ispconfig-2
+    COPY ./certbot-dns-ispconfig-2 /certbot-dns-ispconfig-2
+    RUN pip install /certbot-dns-ispconfig-2
+
+Also need to clone repo:
+
+.. code-block:: bash
+
+    git clone https://github.com/edejin/certbot-dns-ispconfig-2.git
 
 Proceed to build the image::
 
-    docker build -t certbot/dns-ispconfig .
+    docker build -t certbot/dns-ispconfig-2 .
 
 Once that's finished, the application can be run as follows::
 
@@ -119,7 +127,7 @@ Once that's finished, the application can be run as follows::
        -v /var/lib/letsencrypt:/var/lib/letsencrypt \
        -v /etc/letsencrypt:/etc/letsencrypt \
        --cap-drop=all \
-       certbot/dns-ispconfig certonly \
+       certbot/dns-ispconfig-2 certonly \
        --authenticator certbot-dns-ispconfig-2:dns-ispconfig \
        --certbot-dns-ispconfig-2:dns-ispconfig-propagation-seconds 900 \
        --certbot-dns-ispconfig-2:dns-ispconfig-credentials \
@@ -129,6 +137,9 @@ Once that's finished, the application can be run as follows::
        --server https://acme-v02.api.letsencrypt.org/directory \
        -d example.com -d '*.example.com'
 
-It is suggested to secure the folder as follows::
-chown root:root /etc/letsencrypt/secrets
-chmod 600 /etc/letsencrypt/secrets
+It is suggested to secure the folder as follows
+
+.. code-block:: bash
+
+    chown root:root /etc/letsencrypt/secrets
+    chmod 600 /etc/letsencrypt/secrets
