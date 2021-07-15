@@ -20,12 +20,12 @@ with open(path.join(this_directory, "README.rst")) as f:
     long_description = f.read()
 
 setup(
-    name="certbot-dns-ispconfig",
+    name="certbot-dns-ispconfig-2",
     version=version,
     description="ispconfig DNS Authenticator plugin for Certbot",
     long_description=long_description,
     long_description_content_type="text/x-rst",
-    url="https://github.com/m42e/certbot-dns-ispconfig",
+    url="https://github.com/edejin/certbot-dns-ispconfig-2",
     author="Matthias Bilger",
     author_email="matthias@bilger.info",
     license="Apache License 2.0",
@@ -56,8 +56,8 @@ setup(
     install_requires=install_requires,
     entry_points={
         "certbot.plugins": [
-            "dns-ispconfig = certbot_dns_ispconfig.dns_ispconfig:Authenticator"
+            "dns-ispconfig = certbot_dns_ispconfig_2.dns_ispconfig:Authenticator"
         ]
     },
-    test_suite="certbot_dns_ispconfig",
+    test_suite="certbot_dns_ispconfig_2",
 )

@@ -1,5 +1,5 @@
-certbot-dns-ispconfig
-=====================
+certbot-dns-ispconfig-2
+=======================
 
 ISPConfig_ DNS Authenticator plugin for Certbot
 
@@ -24,7 +24,7 @@ Installation
 
 ::
 
-    pip install certbot-dns-ispconfig
+    pip install certbot-dns-ispconfig-2
 
 
 Named Arguments
@@ -34,17 +34,17 @@ To start using DNS authentication for ispconfig, pass the following arguments on
 certbot's command line:
 
 ============================================================= ==============================================
-``--authenticator certbot-dns-ispconfig:dns-ispconfig``          select the authenticator plugin (Required)
+``--authenticator certbot-dns-ispconfig-2:dns-ispconfig``          select the authenticator plugin (Required)
 
-``--certbot-dns-ispconfig:dns-ispconfig-credentials``         ispconfig Remote User credentials
+``--certbot-dns-ispconfig-2:dns-ispconfig-credentials``         ispconfig Remote User credentials
                                                               INI file. (Required)
 
-``--certbot-dns-ispconfig:dns-ispconfig-propagation-seconds`` | waiting time for DNS to propagate before asking
+``--certbot-dns-ispconfig-2:dns-ispconfig-propagation-seconds`` | waiting time for DNS to propagate before asking
                                                               | the ACME server to verify the DNS record.
                                                               | (Default: 120, Recommended: >= 600)
 ============================================================= ==============================================
 
-(Note that the verbose and seemingly redundant ``certbot-dns-ispconfig:`` prefix
+(Note that the verbose and seemingly redundant ``certbot-dns-ispconfig-2:`` prefix
 is currently imposed by certbot for external plugins.)
 
 
@@ -55,12 +55,12 @@ An example ``credentials.ini`` file:
 
 .. code-block:: ini
 
-   certbot_dns_ispconfig:dns_ispconfig_username = myremoteuser
-   certbot_dns_ispconfig:dns_ispconfig_password = verysecureremoteuserpassword
-   certbot_dns_ispconfig:dns_ispconfig_endpoint = https://you.ipsconfig.host:8080/remote/json.php
+   certbot_dns_ispconfig_2:dns_ispconfig_username = myremoteuser
+   certbot_dns_ispconfig_2:dns_ispconfig_password = verysecureremoteuserpassword
+   certbot_dns_ispconfig_2:dns_ispconfig_endpoint = https://you.ipsconfig.host:8080/remote/json.php
 
 The path to this file can be provided interactively or using the
-``--certbot-dns-ispconfig:dns-ispconfig-credentials`` command-line argument. Certbot
+``--certbot-dns-ispconfig-2:dns-ispconfig-credentials`` command-line argument. Certbot
 records the path to this file for use during renewal, but does not store the
 file's contents.
 
@@ -88,9 +88,9 @@ To acquire a single certificate for both ``example.com`` and
 .. code-block:: bash
 
    certbot certonly \
-     --authenticator certbot-dns-ispconfig:dns-ispconfig \
-     --certbot-dns-ispconfig:dns-ispconfig-credentials /etc/letsencrypt/.secrets/domain.tld.ini \
-     --certbot-dns-ispconfig:dns-ispconfig-propagation-seconds 900 \
+     --authenticator certbot-dns-ispconfig-2:dns-ispconfig \
+     --certbot-dns-ispconfig-2:dns-ispconfig-credentials /etc/letsencrypt/secrets/domain.tld.ini \
+     --certbot-dns-ispconfig-2:dns-ispconfig-propagation-seconds 900 \
      --server https://acme-v02.api.letsencrypt.org/directory \
      --agree-tos \
      --rsa-key-size 4096 \
@@ -101,13 +101,13 @@ To acquire a single certificate for both ``example.com`` and
 Docker
 ------
 
-In order to create a docker container with a certbot-dns-ispconfig installation,
+In order to create a docker container with a certbot-dns-ispconfig-2 installation,
 create an empty directory with the following ``Dockerfile``:
 
 .. code-block:: docker
 
     FROM certbot/certbot
-    RUN pip install certbot-dns-ispconfig
+    RUN pip install certbot-dns-ispconfig-2
 
 Proceed to build the image::
 
@@ -120,15 +120,15 @@ Once that's finished, the application can be run as follows::
        -v /etc/letsencrypt:/etc/letsencrypt \
        --cap-drop=all \
        certbot/dns-ispconfig certonly \
-       --authenticator certbot-dns-ispconfig:dns-ispconfig \
-       --certbot-dns-ispconfig:dns-ispconfig-propagation-seconds 900 \
-       --certbot-dns-ispconfig:dns-ispconfig-credentials \
-           /etc/letsencrypt/.secrets/domain.tld.ini \
+       --authenticator certbot-dns-ispconfig-2:dns-ispconfig \
+       --certbot-dns-ispconfig-2:dns-ispconfig-propagation-seconds 900 \
+       --certbot-dns-ispconfig-2:dns-ispconfig-credentials \
+           /etc/letsencrypt/secrets/domain.tld.ini \
        --no-self-upgrade \
        --keep-until-expiring --non-interactive --expand \
        --server https://acme-v02.api.letsencrypt.org/directory \
        -d example.com -d '*.example.com'
 
 It is suggested to secure the folder as follows::
-chown root:root /etc/letsencrypt/.secrets
-chmod 600 /etc/letsencrypt/.secrets
+chown root:root /etc/letsencrypt/secrets
+chmod 600 /etc/letsencrypt/secrets

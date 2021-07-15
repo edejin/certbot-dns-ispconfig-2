@@ -121,7 +121,7 @@ class _ISPConfigClient(object):
 
     def _get_server_id(self, zone_id):
         zone = self._api_request("dns_zone_get", {"primary_id": zone_id})
-        return zone["server_id"]
+        return zone["server_id"], zone["sys_userid"]
 
     def add_txt_record(self, domain, record_name, record_content, record_ttl):
         """
@@ -184,10 +184,11 @@ class _ISPConfigClient(object):
                 self._delete_txt_record(record["id"])
 
     def _prepare_rr_data(self, zone_id, record_name, record_content, record_ttl):
-        server_id = self._get_server_id(zone_id)
+        server_id, sys_userid = self._get_server_id(zone_id)
         data = {
             "client_id": None,
             "rr_type": "TXT",
+            "sys_userid": sys_userid,
             "params": {
                 "server_id": server_id,
                 "name": record_name,
